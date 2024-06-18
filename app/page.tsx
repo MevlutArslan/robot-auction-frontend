@@ -28,7 +28,7 @@ const robots: RobotData[] = [
   { id: "19", name: "Robo19", provider: RobotProvider.TESLA, location: "Seattle", capabilities: [RobotCapability.COOK, RobotCapability.CLEAN], highestBid: 5500 },
   { id: "20", name: "Robo20", provider: RobotProvider.FIGURE, location: "Denver", capabilities: [RobotCapability.CONVERSE, RobotCapability.ENTERTAIN], highestBid: 3000 },
   { id: "21", name: "Robo13", provider: RobotProvider.TESLA, location: "Jacksonville", capabilities: [RobotCapability.COOK, RobotCapability.CLEAN], highestBid: 4500 },
-  { id: "22", name: "Robo14", provider: RobotProvider.FIGURE, location: "Fort Worth", capabilities: [RobotCapability.CONVERSE, RobotCapability.ENTERTAIN], highestBid: 2800 },
+  { id: "22", name: "Robo14", provider: RobotProvider.FIGURE, location: "Fort Worth", capabilities: [RobotCapability.CONVERSE, RobotCapability.ENTERTAIN, RobotCapability.REPAIR], highestBid: 2800 },
   { id: "23", name: "Robo15", provider: RobotProvider.NVIDIA, location: "Columbus", capabilities: [RobotCapability.BUILD, RobotCapability.REPAIR], highestBid: 1400 },
   { id: "24", name: "Robo16", provider: RobotProvider.TESLA, location: "Charlotte", capabilities: [RobotCapability.COOK, RobotCapability.CLEAN], highestBid: 5000 },
   { id: "25", name: "Robo17", provider: RobotProvider.FIGURE, location: "San Francisco", capabilities: [RobotCapability.CONVERSE, RobotCapability.ENTERTAIN], highestBid: 2900 },
@@ -37,15 +37,10 @@ const robots: RobotData[] = [
 
 
 export default function Home() {
-
     const {isSignedIn} = useAuth()
-  return (
-    <>
-      <Navbar/>
-      <main className="flex flex-col h-screen items-center justify-center px-2">
+    return (
+      <main className="flex flex-row min-h-[90vh] w-screen items-center justify-center px-2">
         {isSignedIn ? <RobotTable robots={robots} /> : <SignIn/> }
       </main>
-    </>
-    
-  );
+    );
 }
