@@ -16,6 +16,7 @@ import { Input } from '@/components/ui/input';
 import { Select, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select';
 import { Checkbox } from '@/components/ui/checkbox';
 import { SelectContent } from '@radix-ui/react-select';
+import RobotAuctionRow from './robot_auction_row';
 
 export enum RobotProvider {
     TESLA = "Tesla",
@@ -50,13 +51,17 @@ export interface RobotData {
     highestBid: number
 }
 
-const getCapabilityTags = (capabilities: RobotCapability[]) => {
+export const getCapabilityTags = (capabilities: RobotCapability[]) => {
+    console.log(capabilities)
     return capabilities.map((capability) => (
         <span key={capability} className={`px-2 py-1 rounded-md ${CapabilityColorMap[capability]}`}>
             {capability}
         </span>
     ));
 };
+
+
+
 export function RobotTable({ robots }: { robots: RobotData[] }) {
     const [bids, setBids] = useState<{ [key: string]: number }>({});
     const [searchTerm, setSearchTerm] = useState("");
@@ -96,77 +101,10 @@ export function RobotTable({ robots }: { robots: RobotData[] }) {
     }, [searchTerm])
 
     return (
-        <div className="flex flex-col w-[80%]">
-            <div className="flex flex-col py-4">
-                <div className='flex flex-row'>
-                    <Input
-                        type="text"
-                        placeholder="Search..."
-                        value={searchTerm}
-                        onChange={handleSearchChange}
-                        className="w-full"
-                    />
-
-                    <Select value={providerFilter} onValueChange={handleProviderChange}>
-                        <SelectTrigger className="w-64">
-                            <SelectValue placeholder="Any Provider"/>
-                        </SelectTrigger>
-                        <SelectContent>
-                            Choose Provider
-                            {Object.values(RobotProvider).map(provider => (
-                                <SelectItem key={provider} value={provider}>{provider}</SelectItem>
-                            ))}
-                        </SelectContent>
-                    </Select>
-                </div>
-
-                <div className='flex flex-row'>
-                    {Object.values(RobotCapability).map(capability => (
-                        <div key={capability} className="flex items-center px-2 space-x-2">
-                            <Checkbox
-                                checked={capabilitiesFilter.includes(capability)}
-                                onCheckedChange={(checked) => handleCapabilityChange(capability, checked)}
-                            />
-                            <span>{capability}</span>
-                        </div>
-                    ))}
-                </div>
-            </div>
-            <Table>
-                <TableHeader>
-                    <TableRow>
-                        <TableHead>Robot Name</TableHead>
-                        <TableHead>Robot Provider</TableHead>
-                        <TableHead>Robot Location</TableHead>
-                        <TableHead>Robot Capabilities</TableHead>
-                        <TableHead>Highest Bid</TableHead>
-                        <TableHead>Place Bid</TableHead>
-                    </TableRow>
-                </TableHeader>
-                <TableBody>
-                    {filteredRobots.map((robot: RobotData) => (
-                        <TableRow key={robot.id}>
-                            <TableCell className="font-medium">{robot.name}</TableCell>
-                            <TableCell>{robot.provider}</TableCell>
-                            <TableCell>{robot.location}</TableCell>
-                            <TableCell>{getCapabilityTags(robot.capabilities)}</TableCell>
-                            <TableCell>{robot.highestBid}</TableCell>
-                            <TableCell className="flex space-x-2 items-center">
-                                <Input
-                                    type="number"
-                                    placeholder="Enter bid"
-                                    value={bids[robot.id] || ''}
-                                    onChange={(e) => handleBidChange(robot.id, parseFloat(e.target.value))}
-                                    className="w-24"
-                                />
-                                <Button onClick={() => handleBidSubmit(robot.id)} className="whitespace-nowrap">
-                                    Submit Bid
-                                </Button>
-                            </TableCell>
-                        </TableRow>
-                    ))}
-                </TableBody>
-            </Table>
+        <div className="flex flex-col my-5 w-[80%]">
+            {robots.map((robot, index) => (
+                <RobotAuctionRow key={robot.id} robot={robot}/>
+            ))}
         </div>
     );
 }
