@@ -1,16 +1,18 @@
 import React, { ReactElement, useState } from 'react'
 import { getCapabilityTags, RobotCapability, RobotData } from './robots_table'
 
-/*
-export interface RobotData {
-    id: string,
-    name: string,
-    provider: RobotProvider,
-    location: string,
-    capabilities: RobotCapability[],
-    highestBid: number
-}
-*/
+
+const getStars = (rating: number) => {
+    return (
+        <div className="flex items-center">
+            {Array.from({ length: 5 }, (_, index) => (
+                <svg key={index} className={`w-4 h-4 ${index < rating ? 'text-yellow-500' : 'text-gray-300'}`} fill="currentColor" viewBox="0 0 20 20">
+                    <path d="M9.049 2.927c.3-.921 1.603-.921 1.902 0l1.3 4.01a1 1 0 00.95.69h4.21c.969 0 1.371 1.24.588 1.81l-3.42 2.49a1 1 0 00-.36 1.118l1.3 4.01c.3.92-.755 1.688-1.54 1.118l-3.42-2.49a1 1 0 00-1.176 0l-3.42 2.49c-.784.57-1.84-.198-1.54-1.118l1.3-4.01a1 1 0 00-.36-1.118l-3.42-2.49c-.784-.57-.38-1.81.588-1.81h4.21a1 1 0 00.95-.69l1.3-4.01z" />
+                </svg>
+            ))}
+        </div>
+    );
+};
 
 export default function RobotAuctionRow({ robot }: { robot: RobotData }) {
     const [bidAmount, setBidAmount] = useState('');
@@ -36,6 +38,7 @@ export default function RobotAuctionRow({ robot }: { robot: RobotData }) {
             <div className="flex flex-col justify-between ml-4 flex-grow">
                 <div>
                     <h2 className="text-lg font-semibold">{robot.name}</h2>
+                    <span className="text-yellow-500">{getStars(robot.rating)}</span>
                     <p className="text-gray-600"><strong>Provider:</strong> {robot.provider}</p>
                     <p className="text-gray-600"><strong>Location:</strong> {robot.location}</p>
                     <div className="flex flex-wrap items-center gap-2">

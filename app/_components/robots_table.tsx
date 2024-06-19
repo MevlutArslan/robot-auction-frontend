@@ -47,6 +47,7 @@ export interface RobotData {
     name: string,
     provider: RobotProvider,
     location: string,
+    rating: number,
     capabilities: RobotCapability[],
     highestBid: number
 }
